@@ -1,0 +1,344 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital,wght@0,400;1,400&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:transparent;}
+
+.wrap{font-family:'Crimson Text',Georgia,serif;color:var(--color-text-primary);padding:1.5rem 0;}
+
+.hero{text-align:center;padding:2rem 1rem 1.5rem;border-bottom:0.5px solid var(--color-border-tertiary);}
+.hero-titulo{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;letter-spacing:3px;color:var(--color-text-primary);line-height:1.2;}
+.hero-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--color-text-secondary);margin-top:6px;letter-spacing:0.5px;}
+.orn{color:var(--color-text-tertiary);letter-spacing:4px;font-size:13px;margin:10px 0;}
+
+.selector-wrap{padding:1.5rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary);}
+.selector-label{font-size:13px;color:var(--color-text-secondary);font-style:italic;margin-bottom:10px;text-align:center;}
+
+.signos-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+.signo-btn{
+  background:var(--color-background-secondary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-md);
+  padding:10px 4px 8px;
+  cursor:pointer;
+  text-align:center;
+  transition:background 0.15s;
+  font-family:'Crimson Text',serif;
+}
+.signo-btn:hover{background:var(--color-background-tertiary);}
+.signo-btn.activo{border:1.5px solid var(--color-border-primary);background:var(--color-background-primary);}
+.signo-icon{font-size:20px;display:block;margin-bottom:3px;}
+.signo-nombre{font-size:11px;color:var(--color-text-secondary);display:block;letter-spacing:0.5px;}
+.signo-fechas{font-size:10px;color:var(--color-text-tertiary);display:block;}
+
+.resultado{padding:1.5rem 1rem;}
+.res-vacio{text-align:center;color:var(--color-text-tertiary);font-style:italic;font-size:14px;padding:2rem 0;}
+
+.res-card{
+  background:var(--color-background-primary);
+  border:0.5px solid var(--color-border-tertiary);
+  border-radius:var(--border-radius-lg);
+  overflow:hidden;
+}
+.res-header{
+  padding:1.25rem 1.5rem 1rem;
+  border-bottom:0.5px solid var(--color-border-tertiary);
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+.res-planta-svg{width:90px;height:110px;flex-shrink:0;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);overflow:hidden;}
+.res-meta{flex:1;}
+.res-signo{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:4px;}
+.res-planta-nombre{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--color-text-primary);line-height:1.2;}
+.res-planta-cientifico{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--color-text-secondary);margin:2px 0 8px;}
+.res-elemento-row{display:flex;gap:6px;flex-wrap:wrap;}
+.res-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-family:'Crimson Text',serif;font-style:italic;border:0.5px solid;}
+
+.res-body{padding:1.25rem 1.5rem;}
+.res-seccion{margin-bottom:1rem;}
+.res-sec-titulo{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:4px;margin-bottom:8px;}
+.res-texto{font-size:14px;line-height:1.75;color:var(--color-text-primary);font-style:italic;}
+.res-texto strong{font-style:normal;font-weight:500;}
+
+.virtudes-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.virtud-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;}
+.virtud-titulo{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:3px;}
+.virtud-valor{font-family:'Playfair Display',serif;font-size:14px;font-weight:500;color:var(--color-text-primary);}
+
+.consejo-bloque{
+  border-left:2px solid var(--color-border-secondary);
+  padding:10px 14px;
+  background:var(--color-background-secondary);
+  border-radius:0;
+  margin-top:4px;
+}
+.consejo-texto{font-size:14px;line-height:1.7;color:var(--color-text-primary);font-style:italic;}
+
+.res-footer{border-top:0.5px solid var(--color-border-tertiary);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;}
+.res-footer-texto{font-size:12px;color:var(--color-text-tertiary);font-style:italic;}
+.btn-preguntar{font-family:'Crimson Text',serif;font-size:13px;}
+
+.estrellas{display:flex;gap:3px;margin-top:6px;}
+.estrella{width:10px;height:10px;background:var(--color-border-secondary);border-radius:50%;}
+.estrella.llena{background:var(--color-text-secondary);}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Horóscopo botánico de la Expedición Mutis — descubre tu planta según tu signo zodiacal</h2>
+
+<div class="hero">
+  <div class="orn">✦ ✦ ✦</div>
+  <div class="hero-titulo">Horóscopo Botánico</div>
+  <div class="hero-titulo" style="font-size:18px;font-weight:400;font-style:italic;">de la Expedición Mutis</div>
+  <div class="hero-sub">Las plantas catalogadas en el Nuevo Reino de Granada revelan tu destino</div>
+  <div class="orn" style="margin-top:14px;">— Guaduas · 1783–1816 —</div>
+</div>
+
+<div class="selector-wrap">
+  <div class="selector-label">Elige tu signo zodiacal para descubrir tu planta</div>
+  <div class="signos-grid" id="signos-grid"></div>
+</div>
+
+<div class="resultado" id="resultado">
+  <div class="res-vacio">Selecciona tu signo para revelar los secretos de la flora neogranadina...</div>
+</div>
+</div>
+
+<script>
+const SIGNOS = [
+  {id:'aries', icon:'♈', nombre:'Aries', fechas:'21 mar – 19 abr',
+   planta:'Guaco', cientifico:'Mikania guaco',
+   color:'#a32d2d', colorLight:'#fcebeb', colorBorder:'#f09595',
+   elemento:'Fuego', planeta:'Marte', cualidad:'Cardinal',
+   descripcion:'Como el <strong>Guaco</strong>, eres audaz y resistente. Esta enredadera del trópico fue usada como antídoto contra venenos de serpiente —el propio Francisco Javier Matiz se dejó morder para comprobar su poder—. Tu espíritu pionero y tu valentía son tu escudo ante cualquier adversidad. Donde otros ven peligro, tú ves oportunidad.',
+   virtudes:{energia:'Incansable', coraje:'Legendario', paciencia:'Escasa', liderazgo:'Natural'},
+   poder:'Neutraliza los venenos del entorno, convierte el peligro en fortaleza',
+   consejo:'Esta semana el guaco te recuerda: la mejor defensa es conocer profundamente lo que te amenaza. Estudia antes de actuar.',
+   mutis:'Matiz se dejó morder por una serpiente para probar el guaco. ¿Tú también irías tan lejos por demostrar algo?',
+   estrellas:5},
+
+  {id:'tauro', icon:'♉', nombre:'Tauro', fechas:'20 abr – 20 may',
+   planta:'Quina', cientifico:'Cinchona officinalis',
+   color:'#3b6d11', colorLight:'#eaf3de', colorBorder:'#97c459',
+   elemento:'Tierra', planeta:'Venus', cualidad:'Fijo',
+   descripcion:'La <strong>Quina</strong>, tesoro de los Andes, es tu planta gemela. Mutis la buscó durante años hasta hallarla en las montañas de Cundinamarca. Como ella, tienes un valor incalculable que el mundo tarda en reconocer. Tu fortaleza silenciosa cura lo que ningún otro remedio puede sanar. Perseveraste y la tierra te recompensa.',
+   virtudes:{constancia:'Inquebrantable', sensualidad:'Profunda', flexibilidad:'Limitada', valor:'Inmenso'},
+   poder:'Cura las fiebres del alma; su corteza es el remedio más preciado del reino',
+   consejo:'La quina tarda décadas en crecer, pero su corteza salva vidas. No apresures lo que requiere tiempo para madurar con plenitud.',
+   mutis:'Mutis descubrió la quina en Cundinamarca en 1772, revolucionando la medicina mundial. Tu paciencia tiene ese mismo potencial transformador.',
+   estrellas:5},
+
+  {id:'geminis', icon:'♊', nombre:'Géminis', fechas:'21 may – 20 jun',
+   planta:'Heliconia', cientifico:'Heliconia bihai',
+   color:'#854f0b', colorLight:'#faeeda', colorBorder:'#ef9f27',
+   elemento:'Aire', planeta:'Mercurio', cualidad:'Mutable',
+   descripcion:'La <strong>Heliconia</strong> —exótica, colorida y siempre sorprendente— es tu espejo vegetal. Cada bráctea esconde una flor diferente; tú también tienes múltiples facetas que deslumbran a quien se acerca. Los pintores de la Expedición la dibujaron una y otra vez, fascinados por su cambio perpetuo. Eres imposible de aburrir.',
+   virtudes:{ingenio:'Brillante', adaptacion:'Excepcional', profundidad:'Variable', comunicacion:'Magnética'},
+   poder:'Su néctar atrae colibríes de todas las especies; nadie puede ignorarla',
+   consejo:'La heliconia florece en oleadas. Esta semana permite que una de tus múltiples ideas llegue a florecer completamente antes de abrir la siguiente.',
+   mutis:'Las heliconias llenaron cientos de láminas de la Expedición. Los científicos nunca se cansaron de encontrar variedades nuevas, igual que contigo.',
+   estrellas:4},
+
+  {id:'cancer', icon:'♋', nombre:'Cáncer', fechas:'21 jun – 22 jul',
+   planta:'Orquídea de pantano', cientifico:'Epidendrum ibaguense',
+   color:'#185fa5', colorLight:'#e6f1fb', colorBorder:'#85b7eb',
+   elemento:'Agua', planeta:'Luna', cualidad:'Cardinal',
+   descripcion:'La <strong>orquídea andina</strong> florece en los lugares más húmedos y recónditos de la cordillera. Como tú, necesita de la sombra protectora para mostrar su belleza más íntima. Mutis reunió cientos de especies en su herbario; cada una, única e irrepetible como tus emociones. Tu sensibilidad es tu mayor talento.',
+   virtudes:{intuicion:'Extraordinaria', lealtad:'Absoluta', dureza:'Suave', memoria:'Prodigiosa'},
+   poder:'Florece donde otros no pueden sobrevivir; transforma la humedad en belleza',
+   consejo:'Las orquídeas no se apresuran. Esta semana cuida tus raíces: el hogar, la familia y los lazos que te nutren son tu mayor fortaleza.',
+   mutis:'Las orquídeas del Nuevo Reino asombraron a los europeos. Lo que otros llaman exceso de sensibilidad, Mutis llamó complejidad digna de estudio.',
+   estrellas:4},
+
+  {id:'leo', icon:'♌', nombre:'Leo', fechas:'23 jul – 22 ago',
+   planta:'Árbol de Mutis', cientifico:'Mutisia clematis',
+   color:'#854f0b', colorLight:'#faeeda', colorBorder:'#ba7517',
+   elemento:'Fuego', planeta:'Sol', cualidad:'Fijo',
+   descripcion:'La <strong>Mutisia</strong> lleva el nombre del mayor sabio del virreinato. Esta enredadera de flores radiantes como soles trepa alto y brilla donde todos puedan verla. Como tú, nació para destacar y para que su nombre quede grabado en la historia. Linneo mismo la bautizó en honor de Mutis: tú también mereces un legado con tu nombre.',
+   virtudes:{carisma:'Irresistible', generosidad:'Real', ego:'Considerable', creatividad:'Solar'},
+   poder:'Sus flores remedian la migraña; irradia luz propia incluso en la sombra',
+   consejo:'La Mutisia necesita una estructura donde trepar para llegar a lo alto. Busca esta semana los aliados que soporten tu ambición.',
+   mutis:'Linneo bautizó este género en honor de José Celestino Mutis. ¿Qué legado llevaría tu nombre?',
+   estrellas:5},
+
+  {id:'virgo', icon:'♍', nombre:'Virgo', fechas:'23 ago – 22 sep',
+   planta:'Quina amarilla', cientifico:'Cinchona pubescens',
+   color:'#3b6d11', colorLight:'#eaf3de', colorBorder:'#639922',
+   elemento:'Tierra', planeta:'Mercurio', cualidad:'Mutable',
+   descripcion:'La <strong>quina amarilla</strong>, la más estudiada y catalogada de las especies de Mutis, refleja tu naturaleza analítica y metódica. Mutis pasó años clasificando sus variedades, documentando cada detalle. Tú también observas, analizas y perfeccionas donde otros solo ven el panorama general. Eres el rigor que la ciencia necesita.',
+   virtudes:{precision:'Quirúrgica', servicio:'Dedicado', critica:'Afilada', detalle:'Obsesivo'},
+   poder:'De sus cortezas se extraen los alcaloides más puros; la perfección encarnada',
+   consejo:'Virgo-quina: esta semana permite que lo suficientemente bueno sea suficiente. No toda lámina necesita ser la definitiva.',
+   mutis:'Mutis catalogó más de 100 variedades de quina. Tu perfeccionismo tiene raíces científicas ilustradas.',
+   estrellas:5},
+
+  {id:'libra', icon:'♎', nombre:'Libra', fechas:'23 sep – 22 oct',
+   planta:'Passiflora', cientifico:'Passiflora ligularis',
+   color:'#993556', colorLight:'#fbeaf0', colorBorder:'#ed93b1',
+   elemento:'Aire', planeta:'Venus', cualidad:'Cardinal',
+   descripcion:'La <strong>Passiflora</strong> —la granadilla— es la flor del equilibrio perfecto: su geometría de pétalos y filamentos es matemáticamente simétrica. Los misioneros la llamaron "flor de la pasión" porque veían en ella los instrumentos de la cruz; tú ves en todo múltiples perspectivas. Tu don es encontrar la belleza en la dualidad.',
+   virtudes:{armonia:'Buscada siempre', diplomacia:'Natural', decision:'Postergada', estetica:'Refinada'},
+   poder:'Sus frutos dulcifican el ánimo; su geometría perfecta calma la mente',
+   consejo:'La passiflora tiene más de 500 especies en el Nuevo Mundo. Esta semana no necesitas conocerlas todas: elige una y comprométete.',
+   mutis:'Las passifloras llenaron decenas de láminas de la Expedición. Su belleza equilibrada fascinó a Mutis tanto como a ti te fascinan las personas.',
+   estrellas:4},
+
+  {id:'escorpio', icon:'♏', nombre:'Escorpio', fechas:'23 oct – 21 nov',
+   planta:'Borrachero', cientifico:'Brugmansia arborea',
+   color:'#534ab7', colorLight:'#eeedfe', colorBorder:'#afa9ec',
+   elemento:'Agua', planeta:'Plutón', cualidad:'Fijo',
+   descripcion:'El <strong>borrachero</strong>, conocido por los chamanes muiscas como puerta entre mundos, es tu planta. Sus flores cuelgan hacia abajo —mirando al inframundo— y sus propiedades alteran la consciencia. Igual que tú, lo que ofrece no es para todos: requiere valentía, sabiduría y respeto. Eres profundo, intenso y transformador.',
+   virtudes:{intensidad:'Sin límites', misterio:'Absoluto', venganza:'Legendaria', transformacion:'Radical'},
+   poder:'Abre puertas entre mundos; ningún secreto le es ajeno',
+   consejo:'El borrachero es medicina solo en manos expertas. Esta semana usa tu poder de manera consciente: tu influencia sobre otros es mayor de lo que crees.',
+   mutis:'Mutis documentó el borrachero con fascinación y cautela. Los secretos más poderosos de la naturaleza siempre exigen respeto.',
+   estrellas:5},
+
+  {id:'sagitario', icon:'♐', nombre:'Sagitario', fechas:'22 nov – 21 dic',
+   planta:'Guadua', cientifico:'Guadua angustifolia',
+   color:'#3b6d11', colorLight:'#eaf3de', colorBorder:'#97c459',
+   elemento:'Fuego', planeta:'Júpiter', cualidad:'Mutable',
+   descripcion:'La <strong>guadua</strong>, el bambú americano que da nombre al propio municipio de Guaduas, es tu planta: crece hasta 30 metros en tiempo récord, es flexible pero irrompible, y coloniza nuevos territorios con energía inagotable. Como tú, aspira siempre más alto y se adapta a cualquier terreno. Es símbolo de libertad vegetal.',
+   virtudes:{libertad:'Sagrada', optimismo:'Contagioso', compromiso:'Esquivo', filosofia:'Vasta'},
+   poder:'Crece 30 metros sin detenerse; su flexibilidad la hace indestructible',
+   consejo:'La guadua necesita raíces profundas para crecer tan alto. Esta semana antes de lanzarte al siguiente horizonte, consolida dónde estás.',
+   mutis:'La guadua fascinó a todos los naturalistas del Camino Real. Su nombre muisca —guauba— significa caña gruesa del monte. Tú también eres más grande por dentro de lo que pareces.',
+   estrellas:5},
+
+  {id:'capricornio', icon:'♑', nombre:'Capricornio', fechas:'22 dic – 19 ene',
+   planta:'Cedro andino', cientifico:'Cedrela montana',
+   color:'#444441', colorLight:'#f1efe8', colorBorder:'#b4b2a9',
+   elemento:'Tierra', planeta:'Saturno', cualidad:'Cardinal',
+   descripcion:'El <strong>cedro andino</strong>, madera más dura de la cordillera, construyó los templos, los muebles y los barcos del virreinato. No crece rápido, pero lo que construye dura siglos. Como tú, su valor no está en la velocidad sino en la solidez. Mutis lo documentó como recurso fundamental del Nuevo Reino: tú también eres el pilar invisible de todo.',
+   virtudes:{disciplina:'Monástica', ambicion:'Estructurada', humor:'Seco pero certero', resistencia:'Centenaria'},
+   poder:'Su madera resiste siglos; lo que construye permanece para siempre',
+   consejo:'El cedro tarda 80 años en alcanzar su madurez plena. Esta semana celebra cuánto has construido ya, sin prisa por el siguiente escalón.',
+   mutis:'El cedro fue uno de los árboles más valiosos del virreinato. Su registro en la Expedición fue meticuloso, como tus propios registros.',
+   estrellas:4},
+
+  {id:'acuario', icon:'♒', nombre:'Acuario', fechas:'20 ene – 18 feb',
+   planta:'Heliocarpus', cientifico:'Heliocarpus americanus',
+   color:'#185fa5', colorLight:'#e6f1fb', colorBorder:'#378add',
+   elemento:'Aire', planeta:'Urano', cualidad:'Fijo',
+   descripcion:'El <strong>Heliocarpus</strong>, árbol de frutos circulares con rayos como ruedas solares, es único en el Nuevo Mundo. Sus semillas son perfectas ruedas aladas que el viento dispersa lejos. Como tú, su diseño es revolucionario, casi de otro planeta. Los pintores de la Expedición lo plasmaron con asombro: nunca habían visto nada igual.',
+   virtudes:{originalidad:'Alienígena', humanismo:'Genuino', frialdad:'Ocasional', vision:'Futurista'},
+   poder:'Sus semillas vuelan más lejos que ninguna otra; lleva ideas a donde nadie llegó',
+   consejo:'El Heliocarpus necesita viento para dispersarse. Esta semana comparte tus ideas más radicales: el mundo está listo para lo que traes.',
+   mutis:'Este árbol dejó perplejos a los pintores de la Expedición. "Nunca habíamos visto semillas así", escribieron. Tú también dejas esa huella.',
+   estrellas:4},
+
+  {id:'piscis', icon:'♓', nombre:'Piscis', fechas:'19 feb – 20 mar',
+   planta:'Orquídea de niebla', cientifico:'Dracula chimaera',
+   color:'#0f6e56', colorLight:'#e1f5ee', colorBorder:'#5dcaa5',
+   elemento:'Agua', planeta:'Neptuno', cualidad:'Mutable',
+   descripcion:'La <strong>Dracula chimaera</strong>, orquídea de los bosques de niebla, vive entre nubes y produce flores que parecen rostros de dragones emergiendo de la bruma. Como tú, habita en el umbral entre lo visible y lo invisible, lo real y lo soñado. Mutis apenas pudo catalogarla: se escapa de cualquier clasificación, igual que tú.',
+   virtudes:{empatia:'Oceánica', creatividad:'Surreal', limites:'Disueltos', espiritualidad:'Profunda'},
+   poder:'Florece en la neblina donde nadie más puede ver; percibe lo invisible',
+   consejo:'La orquídea de niebla muere si la sacas de su ambiente. Esta semana protege tu espacio creativo y espiritual de las exigencias del mundo práctico.',
+   mutis:'Algunas flores de los bosques de niebla fueron imposibles de catalogar completamente. No todo lo más bello cabe en una lámina.',
+   estrellas:5},
+];
+
+function plantaSVG(signo){
+  const s = signo;
+  const c = s.colorLight;
+  const cs = s.colorBorder;
+  const ct = s.color;
+
+  const svgs = {
+    aries:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="30" stroke="${ct}" stroke-width="2"/><path d="M45,75 Q25,62 18,48 Q30,55 45,75Z" fill="${ct}" opacity="0.7"/><path d="M45,75 Q65,62 72,48 Q60,55 45,75Z" fill="${ct}" opacity="0.6"/><path d="M45,55 Q28,40 22,26 Q37,38 45,55Z" fill="${ct}" opacity="0.7"/><path d="M45,55 Q62,40 68,26 Q53,38 45,55Z" fill="${ct}" opacity="0.6"/><path d="M45,30 Q38,18 40,8 Q44,20 45,30Z" fill="${ct}" opacity="0.8"/><path d="M45,30 Q52,18 50,8 Q46,20 45,30Z" fill="${ct}" opacity="0.7"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    tauro:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="55" stroke="${ct}" stroke-width="2"/><rect x="38" y="55" width="14" height="8" rx="3" fill="${ct}" opacity="0.6"/><ellipse cx="45" cy="45" rx="20" ry="22" fill="${ct}" opacity="0.5"/><ellipse cx="45" cy="42" rx="14" ry="15" fill="${ct}" opacity="0.6"/><ellipse cx="45" cy="40" rx="8" ry="9" fill="${ct}" opacity="0.7"/><path d="M25,33 Q14,20 12,10 Q22,22 25,33Z" fill="${ct}" opacity="0.6"/><path d="M65,33 Q76,20 78,10 Q68,22 65,33Z" fill="${ct}" opacity="0.6"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    geminis:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="40" stroke="${ct}" stroke-width="2"/><path d="M45,70 Q30,60 25,48 Q38,58 45,70Z" fill="${ct}" opacity="0.7"/><path d="M45,70 Q60,60 65,48 Q52,58 45,70Z" fill="${ct}" opacity="0.6"/><path d="M45,50 Q32,40 28,28 Q40,38 45,50Z" fill="#d4537e" opacity="0.7"/><path d="M45,50 Q58,40 62,28 Q50,38 45,50Z" fill="#ba7517" opacity="0.7"/><ellipse cx="35" cy="25" rx="8" ry="10" fill="${ct}" opacity="0.6"/><ellipse cx="55" cy="20" rx="7" ry="9" fill="#d4537e" opacity="0.6"/><ellipse cx="45" cy="35" rx="6" ry="7" fill="#ba7517" opacity="0.5"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    cancer:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="55" stroke="${ct}" stroke-width="1.5"/><ellipse cx="45" cy="45" rx="18" ry="20" fill="${ct}" opacity="0.15"/><ellipse cx="45" cy="42" rx="12" ry="13" fill="${ct}" opacity="0.2"/><path d="M45,45 Q36,35 36,26 Q40,34 45,45Z" fill="${ct}" opacity="0.7"/><path d="M45,45 Q54,35 54,26 Q50,34 45,45Z" fill="${ct}" opacity="0.65"/><path d="M45,35 Q38,25 40,15 Q44,25 45,35Z" fill="${ct}" opacity="0.6"/><path d="M45,35 Q52,25 50,15 Q46,25 45,35Z" fill="${ct}" opacity="0.55"/><circle cx="45" cy="16" r="7" fill="${ct}" opacity="0.5"/><circle cx="45" cy="16" r="4" fill="${ct}" opacity="0.7"/><circle cx="45" cy="16" r="2" fill="${ct}"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    leo:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="55" stroke="${ct}" stroke-width="2"/><path d="M45,55 Q30,42 28,28" stroke="${ct}" stroke-width="1.5" fill="none"/><path d="M45,55 Q60,42 62,28" stroke="${ct}" stroke-width="1.5" fill="none"/><circle cx="45" cy="22" r="16" fill="${ct}" opacity="0.15"/><circle cx="45" cy="22" r="11" fill="${ct}" opacity="0.3"/><circle cx="45" cy="22" r="7" fill="${ct}" opacity="0.6"/><line x1="45" y1="6" x2="45" y2="2" stroke="${ct}" stroke-width="1.5"/><line x1="55" y1="9" x2="58" y2="6" stroke="${ct}" stroke-width="1.5"/><line x1="61" y1="18" x2="65" y2="17" stroke="${ct}" stroke-width="1.5"/><line x1="35" y1="9" x2="32" y2="6" stroke="${ct}" stroke-width="1.5"/><line x1="29" y1="18" x2="25" y2="17" stroke="${ct}" stroke-width="1.5"/><line x1="61" y1="26" x2="65" y2="27" stroke="${ct}" stroke-width="1.5"/><line x1="29" y1="26" x2="25" y2="27" stroke="${ct}" stroke-width="1.5"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    virgo:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="20" stroke="${ct}" stroke-width="1.5"/><line x1="20" y1="55" x2="70" y2="55" stroke="${ct}" stroke-width="0.5" opacity="0.4"/><line x1="25" y1="42" x2="65" y2="42" stroke="${ct}" stroke-width="0.5" opacity="0.4"/><line x1="28" y1="68" x2="62" y2="68" stroke="${ct}" stroke-width="0.5" opacity="0.4"/><path d="M45,80 Q28,65 24,50 Q38,62 45,80Z" fill="${ct}" opacity="0.7"/><path d="M45,80 Q62,65 66,50 Q52,62 45,80Z" fill="${ct}" opacity="0.65"/><path d="M45,60 Q30,46 26,32 Q40,44 45,60Z" fill="${ct}" opacity="0.6"/><path d="M45,60 Q60,46 64,32 Q50,44 45,60Z" fill="${ct}" opacity="0.55"/><ellipse cx="45" cy="20" rx="9" ry="6" fill="${ct}" opacity="0.5"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    libra:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="50" stroke="${ct}" stroke-width="2"/><circle cx="45" cy="32" r="18" fill="none" stroke="${ct}" stroke-width="1.5" opacity="0.4"/><circle cx="45" cy="32" r="12" fill="none" stroke="${ct}" stroke-width="1" opacity="0.5"/><circle cx="45" cy="32" r="6" fill="${ct}" opacity="0.5"/><ellipse cx="38" cy="32" rx="4" ry="20" fill="none" stroke="${ct}" stroke-width="0.8" opacity="0.6"/><ellipse cx="52" cy="32" rx="4" ry="20" fill="none" stroke="${ct}" stroke-width="0.8" opacity="0.6"/><ellipse cx="45" cy="18" rx="12" ry="4" fill="none" stroke="${ct}" stroke-width="0.8" opacity="0.6"/><ellipse cx="45" cy="46" rx="12" ry="4" fill="none" stroke="${ct}" stroke-width="0.8" opacity="0.6"/><circle cx="45" cy="32" r="3" fill="${ct}" opacity="0.8"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    escorpio:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="45" stroke="${ct}" stroke-width="2"/><path d="M45,65 Q28,52 24,38 Q38,50 45,65Z" fill="${ct}" opacity="0.8"/><path d="M45,65 Q62,52 66,38 Q52,50 45,65Z" fill="${ct}" opacity="0.75"/><path d="M45,48 Q30,34 28,20 Q40,32 45,48Z" fill="${ct}" opacity="0.7"/><path d="M45,48 Q60,34 62,20 Q50,32 45,48Z" fill="${ct}" opacity="0.65"/><path d="M45,45 Q32,32 40,14 Q44,30 45,45Z" fill="${ct}" opacity="0.6"/><ellipse cx="45" cy="12" rx="7" ry="6" fill="${ct}" opacity="0.5"/><line x1="38" y1="8" x2="30" y2="2" stroke="${ct}" stroke-width="1.2"/><line x1="52" y1="8" x2="60" y2="2" stroke="${ct}" stroke-width="1.2"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    sagitario:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="10" stroke="${ct}" stroke-width="3"/><line x1="45" y1="35" x2="30" y2="25" stroke="${ct}" stroke-width="1.5"/><line x1="45" y1="50" x2="25" y2="42" stroke="${ct}" stroke-width="1.5"/><line x1="45" y1="65" x2="22" y2="60" stroke="${ct}" stroke-width="1.5"/><line x1="45" y1="80" x2="25" y2="78" stroke="${ct}" stroke-width="1.5"/><line x1="45" y1="35" x2="60" y2="25" stroke="${ct}" stroke-width="1.5"/><line x1="45" y1="50" x2="65" y2="42" stroke="${ct}" stroke-width="1.5"/><line x1="45" y1="65" x2="68" y2="60" stroke="${ct}" stroke-width="1.5"/><line x1="45" y1="80" x2="65" y2="78" stroke="${ct}" stroke-width="1.5"/><ellipse cx="45" cy="10" rx="5" ry="5" fill="${ct}" opacity="0.8"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    capricornio:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><rect x="38" y="14" width="14" height="91" rx="3" fill="${ct}" opacity="0.5"/><rect x="30" y="22" width="30" height="8" rx="2" fill="${ct}" opacity="0.4"/><rect x="26" y="38" width="38" height="8" rx="2" fill="${ct}" opacity="0.4"/><rect x="28" y="54" width="34" height="8" rx="2" fill="${ct}" opacity="0.4"/><rect x="30" y="70" width="30" height="8" rx="2" fill="${ct}" opacity="0.4"/><rect x="32" y="86" width="26" height="8" rx="2" fill="${ct}" opacity="0.4"/><ellipse cx="45" cy="14" rx="10" ry="7" fill="${ct}" opacity="0.6"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    acuario:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="55" stroke="${ct}" stroke-width="1.5"/><circle cx="45" cy="40" r="15" fill="none" stroke="${ct}" stroke-width="1" opacity="0.5"/><g transform="translate(45,40)"><line x1="0" y1="-15" x2="0" y2="-24" stroke="${ct}" stroke-width="1.2"/><line x1="10.6" y1="-10.6" x2="17" y2="-17" stroke="${ct}" stroke-width="1.2"/><line x1="15" y1="0" x2="24" y2="0" stroke="${ct}" stroke-width="1.2"/><line x1="10.6" y1="10.6" x2="17" y2="17" stroke="${ct}" stroke-width="1.2"/><line x1="0" y1="15" x2="0" y2="24" stroke="${ct}" stroke-width="1.2"/><line x1="-10.6" y1="10.6" x2="-17" y2="17" stroke="${ct}" stroke-width="1.2"/><line x1="-15" y1="0" x2="-24" y2="0" stroke="${ct}" stroke-width="1.2"/><line x1="-10.6" y1="-10.6" x2="-17" y2="-17" stroke="${ct}" stroke-width="1.2"/></g><ellipse cx="45" cy="40" rx="6" ry="6" fill="${ct}" opacity="0.6"/><ellipse cx="45" cy="40" rx="3" ry="3" fill="${ct}"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+    piscis:`<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" width="90" height="110"><rect width="90" height="110" fill="${c}"/><line x1="45" y1="105" x2="45" y2="55" stroke="${ct}" stroke-width="1.5"/><path d="M45,55 Q22,40 20,22 Q32,38 45,55Z" fill="${ct}" opacity="0.6"/><path d="M45,55 Q68,40 70,22 Q58,38 45,55Z" fill="${ct}" opacity="0.55"/><path d="M45,38 Q24,28 24,14 Q36,26 45,38Z" fill="${ct}" opacity="0.65"/><path d="M45,38 Q66,28 66,14 Q54,26 45,38Z" fill="${ct}" opacity="0.6"/><ellipse cx="45" cy="13" rx="9" ry="7" fill="${ct}" opacity="0.4"/><ellipse cx="45" cy="13" rx="5" ry="4" fill="${ct}" opacity="0.6"/><circle cx="45" cy="13" r="2.5" fill="${ct}" opacity="0.9"/><rect x="4" y="4" width="82" height="102" fill="none" stroke="${cs}" stroke-width="0.5"/></svg>`,
+  };
+  return svgs[s.id] || svgs.aries;
+}
+
+function renderSignos(){
+  const grid = document.getElementById('signos-grid');
+  grid.innerHTML = SIGNOS.map(s => `
+    <button class="signo-btn" data-id="${s.id}" onclick="seleccionar('${s.id}')" aria-label="${s.nombre}">
+      <span class="signo-icon">${s.icon}</span>
+      <span class="signo-nombre">${s.nombre}</span>
+      <span class="signo-fechas">${s.fechas.split('–')[0].trim()}</span>
+    </button>
+  `).join('');
+}
+
+function renderEstrellas(n){
+  return Array.from({length:5}, (_,i) => `<div class="estrella${i<n?' llena':''}"></div>`).join('');
+}
+
+function seleccionar(id){
+  document.querySelectorAll('.signo-btn').forEach(b => b.classList.remove('activo'));
+  const btn = document.querySelector(`[data-id="${id}"]`);
+  if(btn) btn.classList.add('activo');
+  const s = SIGNOS.find(x => x.id === id);
+  if(!s) return;
+  const res = document.getElementById('resultado');
+  res.innerHTML = `
+    <div class="res-card">
+      <div class="res-header">
+        <div class="res-planta-svg">${plantaSVG(s)}</div>
+        <div class="res-meta">
+          <div class="res-signo">${s.icon} ${s.nombre} · ${s.fechas}</div>
+          <div class="res-planta-nombre">${s.planta}</div>
+          <div class="res-planta-cientifico">${s.cientifico}</div>
+          <div class="res-elemento-row">
+            <span class="res-badge" style="background:${s.colorLight};color:${s.color};border-color:${s.colorBorder};">${s.elemento}</span>
+            <span class="res-badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary);border-color:var(--color-border-tertiary);">${s.planeta}</span>
+            <span class="res-badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary);border-color:var(--color-border-tertiary);">${s.cualidad}</span>
+          </div>
+          <div class="estrellas">${renderEstrellas(s.estrellas)}</div>
+        </div>
+      </div>
+      <div class="res-body">
+        <div class="res-seccion">
+          <div class="res-sec-titulo">Tu planta revelada</div>
+          <div class="res-texto">${s.descripcion}</div>
+        </div>
+        <div class="res-seccion">
+          <div class="res-sec-titulo">Virtudes de la planta en ti</div>
+          <div class="virtudes-grid">
+            ${Object.entries(s.virtudes).map(([k,v]) => `
+              <div class="virtud-item">
+                <div class="virtud-titulo">${k}</div>
+                <div class="virtud-valor">${v}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="res-seccion">
+          <div class="res-sec-titulo">Poder ancestral</div>
+          <div class="res-texto">${s.poder}</div>
+        </div>
+        <div class="res-seccion">
+          <div class="res-sec-titulo">Consejo semanal de la Expedición</div>
+          <div class="consejo-bloque">
+            <div class="consejo-texto">${s.consejo}</div>
+          </div>
+        </div>
+        <div class="res-seccion">
+          <div class="res-sec-titulo">Mutis te dice</div>
+          <div class="res-texto" style="font-style:normal;color:var(--color-text-secondary);font-size:13px;">${s.mutis}</div>
+        </div>
+      </div>
+      <div class="res-footer">
+        <div class="res-footer-texto">Real Expedición Botánica · Nueva Granada · 1783–1816</div>
+        <button class="btn-preguntar" onclick="sendPrompt('Cuéntame más sobre la ${s.planta} (${s.cientifico}) y su relación con Guaduas y la Expedición Botánica de Mutis')">Más sobre esta planta ↗</button>
+      </div>
+    </div>
+  `;
+}
+
+renderSignos();
+</script>
